@@ -1,9 +1,9 @@
 import express from "express";
-import { signup, login } from "../Controller/astroQuestController.js";
+import { signUp, login } from "../Controller/astroQuestController.js";
 
 const router = express.Router();
 
-router.post("/signup", signup);
+router.post("/signup", signUp);
 router.post("/login", login);
 
 export default router;
