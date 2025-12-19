@@ -1,7 +1,7 @@
 import express from "express";
 import { protectAdmin } from "../Middleware/authMiddleware.js";
 import astroCollection from "../Model/astroQuestModel.js";
-import Innovation from "../Model/innovation.js ";
+import Innovation from "../Model/Innovation.js";
 
 const adminRoutes = express.Router();
 
