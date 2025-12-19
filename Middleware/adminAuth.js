@@ -1,9 +1,14 @@
 import jwt from "jsonwebtoken";
 
-const adminAuth = (req, res, next) => {
+export const adminProtect = (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) return res.status(401).json("No token");
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json("No token provided");
+    }
+
+    const token = authHeader.split(" ")[1];
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -11,11 +16,10 @@ const adminAuth = (req, res, next) => {
       return res.status(403).json("Admin access only");
     }
 
-    req.admin = decoded;
+    req.adminId = decoded.id;
     next();
-  } catch (err) {
-    res.status(401).json("Invalid token");
+  } catch (error) {
+    console.error("ADMIN AUTH ERROR:", error.message);
+    res.status(401).json("Unauthorized");
   }
 };
-
-export default adminAuth;

@@ -1,5 +1,5 @@
 import express from "express";
-import Innovation from "../Model/Innovation.js";
+import Innovation from "../Model/Innovation.js ";
 
 const router = express.Router();
 

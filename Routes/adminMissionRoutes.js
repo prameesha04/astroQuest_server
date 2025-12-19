@@ -1,18 +1,17 @@
 import express from "express";
 import {
   createMission,
-  getAllMissions,
+  getMissions,
   updateMission,
   deleteMission,
 } from "../Controller/adminMissionController.js";
-import adminAuth from "../Middleware/adminAuth.js";
+import { adminProtect } from "../Middleware/adminAuth.js";
 
 const router = express.Router();
 
-router.post("/create", adminAuth, createMission);
-router.get("/", adminAuth, getAllMissions);
-router.put("/:id", adminAuth, updateMission);
-router.delete("/:id", adminAuth, deleteMission);
-
+router.post("/create", adminProtect, createMission);
+router.get("/", adminProtect, getMissions);
+router.put("/:id", adminProtect, updateMission);
+router.delete("/:id", adminProtect, deleteMission);
 
 export default router;

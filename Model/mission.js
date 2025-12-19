@@ -1,19 +1,9 @@
 import mongoose from "mongoose";
 
 const missionSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  title: String,
+  description: String,
+  level: Number,
 });
 
-const Mission = mongoose.model("Mission", missionSchema);
-
-export default Mission;
+export default mongoose.model("Mission", missionSchema);

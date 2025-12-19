@@ -1,15 +1,21 @@
-//we will handle connectivity bettween express and mongodb here
-//const mpngoose=require('mongoose'); commonjs syntax
 import mongoose from "mongoose";
-import dotenv from "dotenv";
-dotenv.config();
 
-const connectDb = () => {
+const connectDB = async () => {
   try {
-    mongoose.connect(process.env.MONGODB_URI);
-    console.log("Connected to MongoDB");
-  } catch (err) {
-    console.log(err);
+    const uri = process.env.MONGO_URI;
+
+    if (!uri) {
+      console.error("❌ MONGO_URI is undefined");
+      process.exit(1);
+    }
+
+    await mongoose.connect(uri);
+
+    console.log("✅ Connected to MongoDB");
+  } catch (error) {
+    console.error("❌ MongoDB connection failed:", error.message);
+    process.exit(1);
   }
 };
-export default connectDb;
+
+export default connectDB;

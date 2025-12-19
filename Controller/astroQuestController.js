@@ -36,7 +36,7 @@ export const signUp = async (req, res) => {
       name: newUser.name,
       email: newUser.email,
       role: newUser.role,
-      jwt: generateToken(newUser._id),
+      token: generateToken(newUser._id),
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -57,14 +57,23 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      jwt: generateToken(user._id),
-    });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    let token;
+    if (user.role === "admin") {
+      token = jwt.sign(
+        { id: user._id, role: "admin" },
+        process.env.JWT_SECRET,
+        { expiresIn: "7d" }
+      );
+    } else {
+      token = jwt.sign(
+        { id: user._id, role: "user" },
+        process.env.JSON_WEB,
+        { expiresIn: "7d" }
+      );
+    }
+
+    res.status(200).json({ token, role: user.role });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

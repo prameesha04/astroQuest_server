@@ -1,56 +1,47 @@
 import Mission from "../Model/mission.js";
 
-// CREATE MISSION
+// CREATE
 export const createMission = async (req, res) => {
   try {
     const { title, description } = req.body;
 
-    const mission = new Mission({
-      title,
-      description,
-    });
+    if (!title) return res.status(400).json("Title required");
 
-    await mission.save();
-    res.status(201).json("Mission created successfully");
+    const mission = await Mission.create({ title, description });
+    res.status(201).json(mission);
   } catch (err) {
-    res.status(500).json("Error creating mission");
+    console.error(err);
+    res.status(500).json("Mission creation failed");
   }
 };
 
-// READ MISSIONS
-export const getAllMissions = async (req, res) => {
+// READ
+export const getMissions = async (req, res) => {
   try {
-    const missions = await Mission.find();
+    const missions = await Mission.find().sort({ createdAt: -1 });
     res.json(missions);
-  } catch (err) {
-    res.status(500).json("Error fetching missions");
+  } catch {
+    res.status(500).json("Failed to fetch missions");
   }
 };
-// UPDATE MISSION
+
+// UPDATE
 export const updateMission = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description } = req.body;
-
-    await Mission.findByIdAndUpdate(id, {
-      title,
-      description
-    });
-
-    res.json("Mission updated successfully");
-  } catch (err) {
-    res.status(500).json("Error updating mission");
+    await Mission.findByIdAndUpdate(id, req.body);
+    res.json("Mission updated");
+  } catch {
+    res.status(500).json("Update failed");
   }
 };
 
-// DELETE MISSION
+// DELETE
 export const deleteMission = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    await Mission.findByIdAndDelete(id);
-    res.json("Mission deleted successfully");
-  } catch (err) {
-    res.status(500).json("Error deleting mission");
+    await Mission.findByIdAndDelete(req.params.id);
+    res.json("Mission deleted");
+  } catch {
+    res.status(500).json("Delete failed");
   }
 };

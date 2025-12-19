@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const innovationSchema = new mongoose.Schema(
   {
     innovatorName: { type: String, required: true },
-    controller: { type: String, required: true },
     innovationTitle: { type: String, required: true },
+    controller: { type: String, required: true },
     innovationType: { type: String, required: true },
     innovationIdea: { type: String, required: true },
     toolsUsed: String,
@@ -12,4 +12,6 @@ const innovationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Innovation", innovationSchema);
+// 🔥 PREVENT OVERWRITE ERROR
+export default mongoose.models.Innovation ||
+  mongoose.model("Innovation", innovationSchema);
