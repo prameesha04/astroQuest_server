@@ -10,7 +10,6 @@ import progressRoutes from "./Routes/progressRoutes.js";
 import adminMissionRoutes from "./Routes/adminMissionRoutes.js";
 import boardRoutes from "./Routes/boardRoutes.js";
 import innovationRoutes from "./Routes/innovation.js";
-import adminUserRoutes from "./Routes/adminUserRoutes.js";
 import adminInnovationRoutes from "./Routes/adminInnovationRoutes.js";
 import adminRoutes from "./Routes/adminRoutes.js";
 
@@ -27,7 +26,7 @@ app.use("/progress", progressRoutes);
 app.use("/api/admin/missions", adminMissionRoutes);
 app.use("/api/board", boardRoutes);
 app.use("/api/innovation", innovationRoutes);
-app.use("/api/admin/users", adminUserRoutes);
+
 app.use("/api", adminInnovationRoutes);
 app.use("/api/admin", adminRoutes);
 
